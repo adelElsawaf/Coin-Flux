@@ -1,8 +1,12 @@
 package com.coinflux.web.coin;
 
 import com.coinflux.web.coin.enums.CoinType;
+import com.coinflux.web.coin_exchange_rate.CoinExchangeRateEntity;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "coins", indexes = {
@@ -27,4 +31,7 @@ public class CoinEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 10)
     private CoinType type;
+
+    @OneToMany(mappedBy = "coin", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CoinExchangeRateEntity> exchangeRates = new ArrayList<>();
 }
