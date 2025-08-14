@@ -9,6 +9,7 @@ import com.coinflux.web.user.dtos.responses.GetUserResponse;
 import com.coinflux.web.user.exception.UserNotFoundException;
 import com.coinflux.web.user.mappers.UserMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,10 +19,12 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserMapper mapper;
+    private final BCryptPasswordEncoder passwordEncoder; // ✅ Add this
 
     @Transactional
     public CreateUserResponse createUser(CreateUserRequest request) {
         UserEntity user = mapper.fromCreateRequest(request);
+        user.setPassword(passwordEncoder.encode(user.getPassword())); // ✅ Important
         userRepository.save(user);
         UserDTO dto = mapper.toDTO(user);
         return new CreateUserResponse(dto);
@@ -45,5 +48,14 @@ public class UserService {
 
         userRepository.save(existing);
         return new UpdateUserResponse(mapper.toDTO(existing));
+    }
+    public UserDTO getUserByEmail(String email) {
+        UserEntity user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("User not found with email: " + email));
+        return mapper.toDTO(user);
+    }
+
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
     }
 }
