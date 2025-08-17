@@ -10,6 +10,8 @@ public interface AuthMapper {
 
     default CreateUserRequest toCreateUserRequest(RegisterRequest request) {
         CreateUserRequest createRequest = new CreateUserRequest();
+        createRequest.setFirstName(request.getFirstName());
+        createRequest.setLastName(request.getLastName());
         createRequest.setUsername(request.getUsername());
         createRequest.setEmail(request.getEmail());
         createRequest.setPassword(request.getPassword());

@@ -19,12 +19,12 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserMapper mapper;
-    private final BCryptPasswordEncoder passwordEncoder; // ✅ Add this
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Transactional
     public CreateUserResponse createUser(CreateUserRequest request) {
         UserEntity user = mapper.fromCreateRequest(request);
-        user.setPassword(passwordEncoder.encode(user.getPassword())); // ✅ Important
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         UserDTO dto = mapper.toDTO(user);
         return new CreateUserResponse(dto);

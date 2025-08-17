@@ -15,6 +15,12 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
+    private String firstName;
+
+    @Column(nullable = false)
+    private String lastName;
+
     @Column(nullable = false, unique = true)
     private String username;
 
@@ -23,4 +29,6 @@ public class UserEntity {
 
     @Column(nullable = false)
     private String password;
+
+
 }
