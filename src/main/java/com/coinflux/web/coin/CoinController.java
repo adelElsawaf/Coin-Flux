@@ -1,10 +1,12 @@
 package com.coinflux.web.coin;
 
+import com.coinflux.web.auth.annotations.LoggedInUser;
 import com.coinflux.web.coin.dtos.requests.CreateCoinRequest;
 import com.coinflux.web.coin.dtos.requests.GetAllCoinsRequest;
 import com.coinflux.web.coin.dtos.responses.CreateCoinResponse;
 import com.coinflux.web.coin.dtos.responses.GetAllCoinsResponse;
 import com.coinflux.web.coin.dtos.responses.GetCoinResponse;
+import com.coinflux.web.user.dtos.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -28,7 +30,8 @@ public class CoinController {
     }
 
     @GetMapping("/symbol/{symbol}")
-    public ResponseEntity<?> getCoinBySymbol(@PathVariable String symbol) {
+    public ResponseEntity<?> getCoinBySymbol(@LoggedInUser UserDTO loggedInUser,@PathVariable String symbol) {
+        System.out.println(loggedInUser);
         return new ResponseEntity<>(coinService.getCoinBySymbol(symbol), HttpStatus.OK);
     }
 
