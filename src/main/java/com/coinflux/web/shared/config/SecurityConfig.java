@@ -1,4 +1,4 @@
-package com.coinflux.web.config;
+package com.coinflux.web.shared.config;
 
 import com.coinflux.web.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +30,7 @@ public class SecurityConfig {
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/exchange-rate").permitAll()
                         .anyRequest().authenticated()
                 );
 

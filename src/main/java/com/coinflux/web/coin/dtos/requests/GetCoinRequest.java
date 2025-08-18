@@ -7,6 +7,5 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GetCoinRequest {
-    private Long id;
     private String symbol;
 }

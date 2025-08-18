@@ -11,23 +11,21 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class CoinExchangeRateScheduler {
 
-    private final CoinExchangeRateService service;
+    private final CoinExchangeRateService coinExchangeRateService;
 
-    @Scheduled(cron = "0,30 * * * * *") // Every minute
-    public void fetchAndSaveRatesJob() {
-        log.info("Scheduled job started: fetching and saving coin exchange rates.");
+    @Scheduled(cron = "0,30 * * * * *")
+    public void refreshExchangeRatesJob() {
+
+        // Flush cache first
+        coinExchangeRateService.flushExchangeRatesFromCache();
 
         long fetchStart = System.currentTimeMillis();
-        var rates = service.fetchRatesFromCoinGecko();
-        long fetchEnd = System.currentTimeMillis();
-        log.info("Fetch time: {} ms", fetchEnd - fetchStart);
+        var rates = coinExchangeRateService.fetchRatesFromCoinGecko();
 
-        long saveStart = System.currentTimeMillis();
-        service.saveRates(rates);
+        coinExchangeRateService.saveRatesInDBAndCache(rates);
         long saveEnd = System.currentTimeMillis();
-        log.info("Save time: {} ms", saveEnd - saveStart);
 
-        log.info("Scheduled job finished: exchange rates updated. Total duration: {} ms",
+        log.info("Scheduled job finished: exchange rates refreshed. Total duration: {} ms",
                 (saveEnd - fetchStart));
     }
 

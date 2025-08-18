@@ -8,7 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateCoinResponse {
-    private Long id;
     private String name;
     private String symbol;
     private CoinType type;

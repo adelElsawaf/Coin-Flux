@@ -25,6 +25,6 @@ public class CoinExchangeRateEntity {
     private LocalDateTime fetchedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "coin_id")
+    @JoinColumn(name = "coin_symbol")
     private CoinEntity coin;
 }

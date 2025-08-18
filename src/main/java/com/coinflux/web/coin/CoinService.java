@@ -28,12 +28,6 @@ public class CoinService {
         return coinMapper.toCreateResponse(coinRepository.save(entity));
     }
 
-    public GetCoinResponse getCoinById(Long id) {
-        CoinEntity entity = coinRepository.findById(id)
-                .orElseThrow(() -> new CoinNotFoundException("Coin not found"));
-        return coinMapper.toGetResponse(entity);
-    }
-
     public GetCoinResponse getCoinBySymbol(String symbol) {
         CoinEntity entity = coinRepository.findBySymbolIgnoreCase(symbol)
                 .orElseThrow(() -> new CoinNotFoundException("Coin not found"));

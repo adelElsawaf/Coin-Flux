@@ -1,4 +1,4 @@
-package com.coinflux.web.exception;
+package com.coinflux.web.shared.exception;
 
 import lombok.Builder;
 import lombok.Data;

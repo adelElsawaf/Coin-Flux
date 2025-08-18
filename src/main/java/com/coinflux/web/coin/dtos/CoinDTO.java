@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CoinDTO {
-    private Long id;
     private String name;
     private String symbol;
     private CoinType type;

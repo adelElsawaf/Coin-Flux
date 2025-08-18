@@ -19,14 +19,10 @@ import java.util.List;
 @AllArgsConstructor
 public class CoinEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String symbol;
 
     @Column(nullable = false, length = 50)
     private String name;
-
-    @Column(nullable = false, length = 20, unique = true)
-    private String symbol;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 10)

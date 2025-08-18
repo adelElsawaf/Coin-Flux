@@ -1,4 +1,4 @@
-package com.coinflux.web.config;
+package com.coinflux.web.shared.config;
 
 
 import com.coinflux.web.auth.resolvers.LoggedInUserResolver;

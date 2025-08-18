@@ -24,12 +24,8 @@ public class CoinController {
         return new ResponseEntity<>(coinService.createCoin(request), HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getCoinById(@PathVariable Long id) {
-        return new ResponseEntity<>(coinService.getCoinById(id), HttpStatus.OK);
-    }
 
-    @GetMapping("/symbol/{symbol}")
+    @GetMapping("/{symbol}")
     public ResponseEntity<?> getCoinBySymbol(@LoggedInUser UserDTO loggedInUser,@PathVariable String symbol) {
         System.out.println(loggedInUser);
         return new ResponseEntity<>(coinService.getCoinBySymbol(symbol), HttpStatus.OK);

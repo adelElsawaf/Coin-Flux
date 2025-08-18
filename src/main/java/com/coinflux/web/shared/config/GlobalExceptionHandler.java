@@ -1,11 +1,10 @@
-package com.coinflux.web.config;
+package com.coinflux.web.shared.config;
 
 import com.coinflux.web.auth.exceptions.AuthException;
 import com.coinflux.web.coin.exceptions.CoinNotFoundException;
-import com.coinflux.web.exception.ErrorObject;
+import com.coinflux.web.shared.exception.ErrorObject;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
