@@ -1,5 +1,10 @@
 package com.coinflux.web.user_coin_watchlist;
 
+import com.coinflux.web.queue.coin_exchange_rate.dtos.CoinExchangeRateMessageDTO;
+import com.coinflux.web.queue.email.EmailMessageProducer;
+import com.coinflux.web.queue.email.dtos.EmailMessageDTO;
+import com.coinflux.web.queue.notification.NotificationMessageProducer;
+import com.coinflux.web.queue.notification.dtos.NotificationMessageDTO;
 import com.coinflux.web.user.dtos.UserDTO;
 import com.coinflux.web.user_coin_watchlist.dtos.UserCoinWatchlistDTO;
 import com.coinflux.web.user_coin_watchlist.dtos.requests.CreateUserCoinWatchlistRequest;
@@ -14,6 +19,7 @@ import com.coinflux.web.user_coin_watchlist.mappers.UserCoinWatchlistMapper;
 import com.coinflux.web.user_coin_watchlist.specifications.UserCoinWatchlistSpecification;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,9 +30,12 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserCoinWatchlistService {
     private final UserCoinWatchlistRepository watchlistRepository;
     private final UserCoinWatchlistMapper mapper;
+    private final NotificationMessageProducer notificationProducer;
+    private final EmailMessageProducer emailProducer;
 
     @Transactional
     public CreateUserCoinWatchlistResponse createUserCoinWatchlist(CreateUserCoinWatchlistRequest request, UserDTO currentUser) {
@@ -83,6 +92,63 @@ public class UserCoinWatchlistService {
         watchlistRepository.delete(entity);
     }
 
+    public void evaluateUserWatchlistRules(CoinExchangeRateMessageDTO message) {
+
+        // Load active watchlist rules for this coin
+        List<UserCoinWatchlistEntity> watchlists =
+                watchlistRepository.findByCoin_SymbolAndIsActiveTrue(message.getCoinSymbol());
+
+        if (watchlists.isEmpty()) {
+            return;
+        }
+
+        for (UserCoinWatchlistEntity watchlist : watchlists) {
+            boolean isTriggered = false;
+
+            switch (watchlist.getAlertRuleKeyword()) {
+                case GREATER_THAN ->
+                        isTriggered = message.getCurrentPrice().compareTo(watchlist.getTargetValue()) > 0;
+                case LESS_THAN ->
+                        isTriggered = message.getCurrentPrice().compareTo(watchlist.getTargetValue()) < 0;
+                case EQUAL ->
+                        isTriggered = message.getCurrentPrice().compareTo(watchlist.getTargetValue()) == 0;
+            }
+
+            if (isTriggered) {
+                log.info("⚡ Alert triggered for user {} on coin {}: {} {} {} (current={})",
+                        watchlist.getUser().getId(),
+                        watchlist.getCoin().getSymbol(),
+                        watchlist.getCoin().getSymbol(),
+                        watchlist.getAlertRuleKeyword(),
+                        watchlist.getTargetValue(),
+                        message.getCurrentPrice());
+
+                // 🔔 Send notification
+                NotificationMessageDTO notification = NotificationMessageDTO.builder()
+                        .userId(watchlist.getUser().getId())
+                        .coinSymbol(message.getCoinSymbol())
+                        .message("Alert triggered: " + message.getCoinSymbol()
+                                + " is now " + message.getCurrentPrice())
+                        .timestamp(System.currentTimeMillis())
+                        .build();
+
+                notificationProducer.sendNotification(notification);
+
+                // 📧 Send email
+                EmailMessageDTO email = EmailMessageDTO.builder()
+                        .userId(watchlist.getUser().getId())
+                        .email(watchlist.getUser().getEmail()) // assuming email exists
+                        .subject("Coin Alert: " + message.getCoinSymbol())
+                        .body("Your alert for " + message.getCoinSymbol()
+                                + " has been triggered at price: " + message.getCurrentPrice()
+                                + " (Rule: " + watchlist.getAlertRuleKeyword()
+                                + " " + watchlist.getTargetValue() + ")")
+                        .timestamp(System.currentTimeMillis())
+                        .build();
+                emailProducer.sendEmail(email);
+            }
+        }
+    }
 
 
 }

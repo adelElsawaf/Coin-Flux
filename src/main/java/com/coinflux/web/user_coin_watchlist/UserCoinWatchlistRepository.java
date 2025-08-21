@@ -17,4 +17,7 @@ public interface UserCoinWatchlistRepository extends JpaRepository<UserCoinWatch
 
     Optional<UserCoinWatchlistEntity> findByUserIdAndCoinSymbol(Long userId, String coinSymbol);
 
-    Optional<UserCoinWatchlistEntity> findByIdAndUserId(Long id, Long userId);}
+    Optional<UserCoinWatchlistEntity> findByIdAndUserId(Long id, Long userId);
+    List<UserCoinWatchlistEntity> findByCoin_SymbolAndIsActiveTrue(String coinSymbol);
+}
+

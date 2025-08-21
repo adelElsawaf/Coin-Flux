@@ -33,8 +33,10 @@ public class CoinExchangeRateService {
 
 
     public Map<String, RateDTO> fetchRatesFromCoinGecko() {
-        log.info("Fetching exchange rates from CoinGecko...");
+        long start = System.nanoTime();
         var response = coinGeckoClient.getExchangeRates();
+        long end = System.nanoTime();
+        log.info("Fetching from CoinGecko takes {}", (end - start) / 1_000_000.0);
         return response.getRates();
     }
 
@@ -57,7 +59,7 @@ public class CoinExchangeRateService {
             }
         });
         long loopEnd = System.nanoTime();
-        log.info("Overall loop duration (including all steps): {} ms", (loopEnd - loopStart) / 1_000_000.0);
+        log.info("Saving in DB & CACHE  {} ms", (loopEnd - loopStart) / 1_000_000.0);
     }
 
     public void flushExchangeRatesFromCache() {
