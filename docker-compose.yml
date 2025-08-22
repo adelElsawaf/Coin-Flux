@@ -1,0 +1,97 @@
+version: "3.8"
+
+services:
+  app:
+    build: .
+    container_name: coinflux-app
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      # Spring Boot server
+      - SERVER_PORT=8080
+      # Database
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/coin_flux
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=1234
+      # Redis
+      - SPRING_DATA_REDIS_HOST=redis
+      - SPRING_DATA_REDIS_PORT=6379
+      - SPRING_DATA_REDIS_USERNAME=default
+      - SPRING_DATA_REDIS_PASSWORD=1234
+      # RabbitMQ
+      - SPRING_RABBITMQ_HOST=rabbitmq
+      - SPRING_RABBITMQ_PORT=5672
+      - SPRING_RABBITMQ_USERNAME=coinflux
+      - SPRING_RABBITMQ_PASSWORD=coinflux
+      - SPRING_RABBITMQ_VIRTUAL_HOST=/
+      # JWT (optional: use defaults from properties if you prefer)
+      - JWT_SECRET=Oqyb2RdOWMs70AJtzCyOzljyzyxVBXOkqDuEHVUyXSBxnIxPd1kGcWR2PXRPAw+4VGhjgrBHEu45CsbAX5bnbA==
+      - JWT_EXPIRATION_MS=36000000
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+
+  db:
+    image: postgres:16-alpine
+    container_name: coinflux-postgres
+    environment:
+      - POSTGRES_DB=coin_flux
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1234
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d coin_flux"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  redis:
+    image: bitnami/redis:7.2
+    container_name: coinflux-redis
+    environment:
+      - ALLOW_EMPTY_PASSWORD=no
+      - REDIS_PASSWORD=1234
+      # Bitnami uses the default user by default; aligns with app config
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/bitnami/redis/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "1234", "PING"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    container_name: coinflux-rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=coinflux
+      - RABBITMQ_DEFAULT_PASS=coinflux
+      - RABBITMQ_DEFAULT_VHOST=/
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmqdata:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  redisdata:
+  rabbitmqdata:
