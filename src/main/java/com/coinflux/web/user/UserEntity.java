@@ -1,7 +1,11 @@
 package com.coinflux.web.user;
 
+import com.coinflux.web.notification.NotificationEntity;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -30,5 +34,6 @@ public class UserEntity {
     @Column(nullable = false)
     private String password;
 
-
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<NotificationEntity> notifications = new ArrayList<>();
 }
