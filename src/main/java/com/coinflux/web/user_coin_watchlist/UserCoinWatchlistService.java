@@ -26,6 +26,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -93,61 +94,67 @@ public class UserCoinWatchlistService {
     }
 
     public void evaluateUserWatchlistRules(CoinExchangeRateMessageDTO message) {
+        List<UserCoinWatchlistEntity> watchlists = loadActiveWatchlists(message.getCoinSymbol());
+        if (watchlists.isEmpty()) return;
 
-        // Load active watchlist rules for this coin
-        List<UserCoinWatchlistEntity> watchlists =
-                watchlistRepository.findByCoin_SymbolAndIsActiveTrue(message.getCoinSymbol());
+        watchlists.stream()
+                .filter(w -> isRuleTriggered(w, message.getCurrentPrice()))
+                .forEach(w -> handleTriggeredRule(w, message));
+    }
 
-        if (watchlists.isEmpty()) {
-            return;
-        }
+    private List<UserCoinWatchlistEntity> loadActiveWatchlists(String coinSymbol) {
+        return watchlistRepository.findByCoin_SymbolAndIsActiveTrue(coinSymbol);
+    }
 
-        for (UserCoinWatchlistEntity watchlist : watchlists) {
-            boolean isTriggered = false;
+    private boolean isRuleTriggered(UserCoinWatchlistEntity watchlist, BigDecimal currentPrice) {
+        return switch (watchlist.getAlertRuleKeyword()) {
+            case GREATER_THAN -> currentPrice.compareTo(watchlist.getTargetValue()) > 0;
+            case LESS_THAN -> currentPrice.compareTo(watchlist.getTargetValue()) < 0;
+            case EQUAL -> currentPrice.compareTo(watchlist.getTargetValue()) == 0;
+        };
+    }
 
-            switch (watchlist.getAlertRuleKeyword()) {
-                case GREATER_THAN ->
-                        isTriggered = message.getCurrentPrice().compareTo(watchlist.getTargetValue()) > 0;
-                case LESS_THAN ->
-                        isTriggered = message.getCurrentPrice().compareTo(watchlist.getTargetValue()) < 0;
-                case EQUAL ->
-                        isTriggered = message.getCurrentPrice().compareTo(watchlist.getTargetValue()) == 0;
-            }
+    private void handleTriggeredRule(UserCoinWatchlistEntity watchlist, CoinExchangeRateMessageDTO message) {
+        logTriggeredAlert(watchlist, message);
+        sendNotification(watchlist, message);
+        sendEmail(watchlist, message);
+    }
 
-            if (isTriggered) {
-                log.info("⚡ Alert triggered for user {} on coin {}: {} {} {} (current={})",
-                        watchlist.getUser().getId(),
-                        watchlist.getCoin().getSymbol(),
-                        watchlist.getCoin().getSymbol(),
-                        watchlist.getAlertRuleKeyword(),
-                        watchlist.getTargetValue(),
-                        message.getCurrentPrice());
+    private void logTriggeredAlert(UserCoinWatchlistEntity watchlist, CoinExchangeRateMessageDTO message) {
+        log.info("⚡ Alert triggered for user {} on coin {}: {} {} {} (current={})",
+                watchlist.getUser().getId(),
+                watchlist.getCoin().getSymbol(),
+                watchlist.getCoin().getSymbol(),
+                watchlist.getAlertRuleKeyword(),
+                watchlist.getTargetValue(),
+                message.getCurrentPrice());
+    }
 
-                // 🔔 Send notification
-                NotificationMessageDTO notification = NotificationMessageDTO.builder()
-                        .userId(watchlist.getUser().getId())
-                        .coinSymbol(message.getCoinSymbol())
-                        .message("Alert triggered: " + message.getCoinSymbol()
-                                + " is now " + message.getCurrentPrice())
-                        .timestamp(System.currentTimeMillis())
-                        .build();
+    private void sendNotification(UserCoinWatchlistEntity watchlist, CoinExchangeRateMessageDTO message) {
+        NotificationMessageDTO notification = NotificationMessageDTO.builder()
+                .userId(watchlist.getUser().getId())
+                .coinSymbol(message.getCoinSymbol())
+                .message("Alert triggered: " + message.getCoinSymbol()
+                        + " is now " + message.getCurrentPrice())
+                .timestamp(System.currentTimeMillis())
+                .build();
 
-                notificationProducer.sendNotification(notification);
+        notificationProducer.sendNotification(notification);
+    }
 
-                // 📧 Send email
-                EmailMessageDTO email = EmailMessageDTO.builder()
-                        .userId(watchlist.getUser().getId())
-                        .email(watchlist.getUser().getEmail()) // assuming email exists
-                        .subject("Coin Alert: " + message.getCoinSymbol())
-                        .body("Your alert for " + message.getCoinSymbol()
-                                + " has been triggered at price: " + message.getCurrentPrice()
-                                + " (Rule: " + watchlist.getAlertRuleKeyword()
-                                + " " + watchlist.getTargetValue() + ")")
-                        .timestamp(System.currentTimeMillis())
-                        .build();
-                emailProducer.sendEmail(email);
-            }
-        }
+    private void sendEmail(UserCoinWatchlistEntity watchlist, CoinExchangeRateMessageDTO message) {
+        EmailMessageDTO email = EmailMessageDTO.builder()
+                .userId(watchlist.getUser().getId())
+                .email(watchlist.getUser().getEmail())
+                .subject("Coin Alert: " + message.getCoinSymbol())
+                .body("Your alert for " + message.getCoinSymbol()
+                        + " has been triggered at price: " + message.getCurrentPrice()
+                        + " (Rule: " + watchlist.getAlertRuleKeyword()
+                        + " " + watchlist.getTargetValue() + ")")
+                .timestamp(System.currentTimeMillis())
+                .build();
+
+        emailProducer.sendEmail(email);
     }
 
 

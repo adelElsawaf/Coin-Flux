@@ -13,11 +13,6 @@ public class NotificationController {
 
     private final NotificationService notificationService;
 
-    @PostMapping
-    public CreateNotificationResponse create(@RequestBody CreateNotificationRequest request) {
-        return notificationService.createNotification(request);
-    }
-
     @GetMapping("/{id}")
     public GetNotificationResponse getById(@PathVariable Long id) {
         return notificationService.getNotificationById(id);
