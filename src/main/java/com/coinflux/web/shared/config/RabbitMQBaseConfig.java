@@ -13,11 +13,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQBaseConfig {
 
-    @Bean
-    public ConnectionFactory connectionFactory() {
-        // Connection details come from application.yml
-        return new CachingConnectionFactory();
-    }
+    // Rely on Spring Boot's auto-configured ConnectionFactory based on spring.rabbitmq.* properties
 
     @Bean
     public MessageConverter jsonMessageConverter() {

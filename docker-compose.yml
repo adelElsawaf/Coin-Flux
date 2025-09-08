@@ -58,7 +58,7 @@ services:
     image: bitnami/redis:7.2
     container_name: coinflux-redis
     environment:
-      - ALLOW_EMPTY_PASSWORD=no
+      - ALLOW_EMPTY_PASSWORD=yes
       - REDIS_PASSWORD=1234
       # Bitnami uses the default user by default; aligns with app config
     ports:
