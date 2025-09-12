@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateNotificationRequest {
+public class  CreateNotificationRequest {
     private Long userId;
     private String title;
     private String message;
