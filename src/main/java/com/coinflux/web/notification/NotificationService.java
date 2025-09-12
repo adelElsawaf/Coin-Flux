@@ -8,6 +8,7 @@ import com.coinflux.web.notification.mappers.NotificationMapper;
 import com.coinflux.web.notification.specifications.NotificationSpecification;
 import com.coinflux.web.user.UserEntity;
 import com.coinflux.web.user.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -54,5 +55,16 @@ public class NotificationService {
                 .totalPages(page.getTotalPages())
                 .currentPage(page.getNumber())
                 .build();
+    }
+
+    @Transactional
+    public void markAllAsRead(Long userId) {
+        notificationRepository.markAllAsReadByUserId(userId);
+    }
+
+    @Transactional
+    public void markOneAsRead(Long userId, Long notificationId) {
+        // Idempotent: if already read or not found for that user, no exception is thrown
+        notificationRepository.markOneAsReadByIdAndUserId(notificationId, userId);
     }
 }
