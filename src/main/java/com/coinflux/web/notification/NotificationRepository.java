@@ -12,10 +12,10 @@ public interface NotificationRepository extends JpaRepository<NotificationEntity
 
 
     @Modifying(clearAutomatically = true)
-    @Query("update NotificationEntity n set n.isRead = true where n.user.id = :userId and n.isRead = false")
-    int markAllAsReadByUserId(@Param("userId") Long userId);
+    @Query("update NotificationEntity n set n.isRead = true, n.readedDate = CURRENT_TIMESTAMP where n.user.id = :userId and n.isRead = false")
+    void markAllAsReadByUserId(@Param("userId") Long userId);
 
     @Modifying(clearAutomatically = true)
-    @Query("update NotificationEntity n set n.isRead = true where n.id = :id and n.user.id = :userId and n.isRead = false")
-    int markOneAsReadByIdAndUserId(@Param("id") Long id, @Param("userId") Long userId);
+    @Query("update NotificationEntity n set n.isRead = true, n.readedDate = CURRENT_TIMESTAMP where n.id = :id and n.user.id = :userId and n.isRead = false")
+    void markOneAsReadByIdAndUserId(@Param("id") Long id, @Param("userId") Long userId);
 }

@@ -59,11 +59,13 @@ public class NotificationService {
 
     @Transactional
     public void markAllAsRead(Long userId) {
+
         notificationRepository.markAllAsReadByUserId(userId);
     }
 
     @Transactional
     public void markOneAsRead(Long userId, Long notificationId) {
+        notificationRepository.findById(notificationId).orElseThrow(() -> new NotificationNotFoundException(notificationId));
         // Idempotent: if already read or not found for that user, no exception is thrown
         notificationRepository.markOneAsReadByIdAndUserId(notificationId, userId);
     }

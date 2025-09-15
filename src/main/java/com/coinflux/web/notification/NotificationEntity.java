@@ -42,6 +42,9 @@ public class  NotificationEntity {
     @Column(name = "is_read", nullable = false)
     private boolean isRead = false;
 
+    @Column(name = "readed_date")
+    private LocalDateTime readedDate;
+
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;

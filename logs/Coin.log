@@ -1,0 +1,109 @@
+2025-09-15T19:48:44.343+03:00  INFO 39344 --- [web] [main] com.coinflux.web.WebApplication          : Starting WebApplication using Java 21.0.7 with PID 39344 (C:\Users\Abderhman-Gharib\Desktop\adel\Coin-Flux\target\classes started by Abderhman-Gharib in C:\Users\Abderhman-Gharib\Desktop\adel\Coin-Flux)
+2025-09-15T19:48:44.344+03:00  INFO 39344 --- [web] [main] com.coinflux.web.WebApplication          : No active profile set, falling back to 1 default profile: "default"
+2025-09-15T19:48:45.470+03:00  INFO 39344 --- [web] [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-09-15T19:48:45.471+03:00  INFO 39344 --- [web] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-09-15T19:48:45.686+03:00  INFO 39344 --- [web] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 177 ms. Found 5 JPA repository interfaces.
+2025-09-15T19:48:45.699+03:00  INFO 39344 --- [web] [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-09-15T19:48:45.700+03:00  INFO 39344 --- [web] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-09-15T19:48:45.720+03:00  INFO 39344 --- [web] [main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.coinflux.web.coin.CoinRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-09-15T19:48:45.720+03:00  INFO 39344 --- [web] [main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.coinflux.web.coin_exchange_rate.CoinExchangeRateRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-09-15T19:48:45.720+03:00  INFO 39344 --- [web] [main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.coinflux.web.notification.NotificationRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-09-15T19:48:45.720+03:00  INFO 39344 --- [web] [main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.coinflux.web.user.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-09-15T19:48:45.722+03:00  INFO 39344 --- [web] [main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.coinflux.web.user_coin_watchlist.UserCoinWatchlistRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-09-15T19:48:45.722+03:00  INFO 39344 --- [web] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 12 ms. Found 0 Redis repository interfaces.
+2025-09-15T19:48:45.948+03:00  INFO 39344 --- [web] [main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=1c7c7b7e-b7f2-3801-86ec-3022b2d0bca5
+2025-09-15T19:48:46.308+03:00  INFO 39344 --- [web] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-09-15T19:48:46.317+03:00  INFO 39344 --- [web] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-09-15T19:48:46.318+03:00  INFO 39344 --- [web] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.36]
+2025-09-15T19:48:46.367+03:00  INFO 39344 --- [web] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-09-15T19:48:46.368+03:00  INFO 39344 --- [web] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1982 ms
+2025-09-15T19:48:46.466+03:00  INFO 39344 --- [web] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-09-15T19:48:46.497+03:00  INFO 39344 --- [web] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.8.Final
+2025-09-15T19:48:46.521+03:00  INFO 39344 --- [web] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-09-15T19:48:46.713+03:00  INFO 39344 --- [web] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-09-15T19:48:46.736+03:00  INFO 39344 --- [web] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-09-15T19:48:46.845+03:00  INFO 39344 --- [web] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@5f781173
+2025-09-15T19:48:46.847+03:00  INFO 39344 --- [web] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-09-15T19:48:46.897+03:00  INFO 39344 --- [web] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 16.10
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-09-15T19:48:47.713+03:00  INFO 39344 --- [web] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-09-15T19:48:47.992+03:00  INFO 39344 --- [web] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-09-15T19:48:48.208+03:00 DEBUG 39344 --- [web] [main] o.s.b.w.s.ServletContextInitializerBeans : Mapping filters: springSecurityFilterChain urls=[/*] order=-100, characterEncodingFilter urls=[/*] order=-2147483648, formContentFilter urls=[/*] order=-9900, requestContextFilter urls=[/*] order=-105, jwtAuthenticationFilter urls=[/*] order=2147483647
+2025-09-15T19:48:48.208+03:00 DEBUG 39344 --- [web] [main] o.s.b.w.s.ServletContextInitializerBeans : Mapping servlets: dispatcherServlet urls=[/]
+2025-09-15T19:48:48.316+03:00  INFO 39344 --- [web] [main] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2025-09-15T19:48:48.317+03:00  WARN 39344 --- [web] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2025-09-15T19:48:48.467+03:00  WARN 39344 --- [web] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-09-15T19:48:49.013+03:00  INFO 39344 --- [web] [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-09-15T19:48:49.639+03:00 DEBUG 39344 --- [web] [main] s.w.s.m.m.a.RequestMappingHandlerMapping : 20 mappings in 'requestMappingHandlerMapping'
+2025-09-15T19:48:49.715+03:00 DEBUG 39344 --- [web] [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2025-09-15T19:48:49.803+03:00 DEBUG 39344 --- [web] [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2025-09-15T19:48:49.838+03:00 DEBUG 39344 --- [web] [main] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2025-09-15T19:48:50.109+03:00  INFO 39344 --- [web] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-09-15T19:48:50.118+03:00  INFO 39344 --- [web] [main] o.s.a.r.c.CachingConnectionFactory       : Attempting to connect to: [localhost:5672]
+2025-09-15T19:48:50.156+03:00  INFO 39344 --- [web] [main] o.s.a.r.c.CachingConnectionFactory       : Created new connection: rabbitConnectionFactory#3759ea4d:0/SimpleConnection@15a1911e [delegate=amqp://coinflux@127.0.0.1:5672/, localPort=55947]
+2025-09-15T19:48:50.236+03:00  INFO 39344 --- [web] [main] com.coinflux.web.WebApplication          : Started WebApplication in 6.251 seconds (process running for 7.067)
+2025-09-15T19:49:00.465+03:00  INFO 39344 --- [web] [scheduling-1] c.c.w.c.CoinExchangeRateService          : No keys found to flush from Redis cache
+2025-09-15T19:49:02.009+03:00 DEBUG 39344 --- [web] [scheduling-1] o.s.w.c.HttpMessageConverterExtractor    : Reading to [com.coinflux.web.coin_exchange_rate.client.coin_gecko.dtos.ExchangeRatesResponse]
+2025-09-15T19:49:02.026+03:00  INFO 39344 --- [web] [scheduling-1] c.c.w.c.CoinExchangeRateService          : Fetching from CoinGecko takes 1560.9204
+2025-09-15T19:49:02.085+03:00  INFO 39344 --- [web] [scheduling-1] c.c.w.c.s.CoinExchangeRateScheduler      : Rabbit MQ time 58.421801 ms
+2025-09-15T19:49:02.168+03:00  INFO 39344 --- [web] [scheduling-1] c.c.w.c.CoinExchangeRateService          : Saving in DB & CACHE  8.433501 ms
+2025-09-15T19:49:02.172+03:00  INFO 39344 --- [web] [scheduling-1] c.c.w.c.s.CoinExchangeRateScheduler      : Scheduled job finished: exchange rates refreshed. Total duration: 1706 ms
+2025-09-15T19:49:30.004+03:00  INFO 39344 --- [web] [scheduling-1] c.c.w.c.CoinExchangeRateService          : No keys found to flush from Redis cache
+2025-09-15T19:49:30.939+03:00 DEBUG 39344 --- [web] [scheduling-1] o.s.w.c.HttpMessageConverterExtractor    : Reading to [com.coinflux.web.coin_exchange_rate.client.coin_gecko.dtos.ExchangeRatesResponse]
+2025-09-15T19:49:30.942+03:00  INFO 39344 --- [web] [scheduling-1] c.c.w.c.CoinExchangeRateService          : Fetching from CoinGecko takes 937.4588
+2025-09-15T19:49:30.972+03:00  INFO 39344 --- [web] [scheduling-1] c.c.w.c.s.CoinExchangeRateScheduler      : Rabbit MQ time 28.899601 ms
+2025-09-15T19:49:30.978+03:00  INFO 39344 --- [web] [scheduling-1] c.c.w.c.CoinExchangeRateService          : Saving in DB & CACHE  0.034401 ms
+2025-09-15T19:49:30.980+03:00  INFO 39344 --- [web] [scheduling-1] c.c.w.c.s.CoinExchangeRateScheduler      : Scheduled job finished: exchange rates refreshed. Total duration: 975 ms
+2025-09-15T19:50:00.020+03:00  INFO 39344 --- [web] [scheduling-1] c.c.w.c.CoinExchangeRateService          : No keys found to flush from Redis cache
+2025-09-15T19:50:00.790+03:00 DEBUG 39344 --- [web] [scheduling-1] o.s.w.c.HttpMessageConverterExtractor    : Reading to [com.coinflux.web.coin_exchange_rate.client.coin_gecko.dtos.ExchangeRatesResponse]
+2025-09-15T19:50:00.797+03:00  INFO 39344 --- [web] [scheduling-1] c.c.w.c.CoinExchangeRateService          : Fetching from CoinGecko takes 778.9953
+2025-09-15T19:50:00.813+03:00  INFO 39344 --- [web] [scheduling-1] c.c.w.c.s.CoinExchangeRateScheduler      : Rabbit MQ time 13.2625 ms
+2025-09-15T19:50:00.818+03:00  INFO 39344 --- [web] [scheduling-1] c.c.w.c.CoinExchangeRateService          : Saving in DB & CACHE  0.0972 ms
+2025-09-15T19:50:00.820+03:00  INFO 39344 --- [web] [scheduling-1] c.c.w.c.s.CoinExchangeRateScheduler      : Scheduled job finished: exchange rates refreshed. Total duration: 799 ms
+2025-09-15T19:50:30.010+03:00  INFO 39344 --- [web] [scheduling-1] c.c.w.c.CoinExchangeRateService          : No keys found to flush from Redis cache
+2025-09-15T19:50:30.349+03:00 DEBUG 39344 --- [web] [scheduling-1] o.s.w.c.HttpMessageConverterExtractor    : Reading to [com.coinflux.web.coin_exchange_rate.client.coin_gecko.dtos.ExchangeRatesResponse]
+2025-09-15T19:50:30.351+03:00  INFO 39344 --- [web] [scheduling-1] c.c.w.c.CoinExchangeRateService          : Fetching from CoinGecko takes 342.1868
+2025-09-15T19:50:30.404+03:00  INFO 39344 --- [web] [scheduling-1] c.c.w.c.s.CoinExchangeRateScheduler      : Rabbit MQ time 51.101399 ms
+2025-09-15T19:50:30.413+03:00  INFO 39344 --- [web] [scheduling-1] c.c.w.c.CoinExchangeRateService          : Saving in DB & CACHE  0.1428 ms
+2025-09-15T19:50:30.414+03:00  INFO 39344 --- [web] [scheduling-1] c.c.w.c.s.CoinExchangeRateScheduler      : Scheduled job finished: exchange rates refreshed. Total duration: 403 ms
+2025-09-15T19:51:00.015+03:00  INFO 39344 --- [web] [scheduling-1] c.c.w.c.CoinExchangeRateService          : No keys found to flush from Redis cache
+2025-09-15T19:51:00.543+03:00 DEBUG 39344 --- [web] [scheduling-1] o.s.w.c.HttpMessageConverterExtractor    : Reading to [com.coinflux.web.coin_exchange_rate.client.coin_gecko.dtos.ExchangeRatesResponse]
+2025-09-15T19:51:00.550+03:00  INFO 39344 --- [web] [scheduling-1] c.c.w.c.CoinExchangeRateService          : Fetching from CoinGecko takes 533.5411
+2025-09-15T19:51:00.568+03:00  INFO 39344 --- [web] [scheduling-1] c.c.w.c.s.CoinExchangeRateScheduler      : Rabbit MQ time 17.820601 ms
+2025-09-15T19:51:00.572+03:00  INFO 39344 --- [web] [scheduling-1] c.c.w.c.CoinExchangeRateService          : Saving in DB & CACHE  0.06 ms
+2025-09-15T19:51:00.573+03:00  INFO 39344 --- [web] [scheduling-1] c.c.w.c.s.CoinExchangeRateScheduler      : Scheduled job finished: exchange rates refreshed. Total duration: 557 ms
+2025-09-15T19:51:30.009+03:00  INFO 39344 --- [web] [scheduling-1] c.c.w.c.CoinExchangeRateService          : No keys found to flush from Redis cache
+2025-09-15T19:51:30.339+03:00 DEBUG 39344 --- [web] [scheduling-1] o.s.w.c.HttpMessageConverterExtractor    : Reading to [com.coinflux.web.coin_exchange_rate.client.coin_gecko.dtos.ExchangeRatesResponse]
+2025-09-15T19:51:30.339+03:00  INFO 39344 --- [web] [scheduling-1] c.c.w.c.CoinExchangeRateService          : Fetching from CoinGecko takes 334.9595
+2025-09-15T19:51:30.373+03:00  INFO 39344 --- [web] [scheduling-1] c.c.w.c.s.CoinExchangeRateScheduler      : Rabbit MQ time 28.5285 ms
+2025-09-15T19:51:30.389+03:00  INFO 39344 --- [web] [scheduling-1] c.c.w.c.CoinExchangeRateService          : Saving in DB & CACHE  0.0777 ms
+2025-09-15T19:51:30.392+03:00  INFO 39344 --- [web] [scheduling-1] c.c.w.c.s.CoinExchangeRateScheduler      : Scheduled job finished: exchange rates refreshed. Total duration: 383 ms
+2025-09-15T19:52:00.017+03:00  INFO 39344 --- [web] [scheduling-1] c.c.w.c.CoinExchangeRateService          : No keys found to flush from Redis cache
+2025-09-15T19:52:00.420+03:00 DEBUG 39344 --- [web] [scheduling-1] o.s.w.c.HttpMessageConverterExtractor    : Reading to [com.coinflux.web.coin_exchange_rate.client.coin_gecko.dtos.ExchangeRatesResponse]
+2025-09-15T19:52:00.422+03:00  INFO 39344 --- [web] [scheduling-1] c.c.w.c.CoinExchangeRateService          : Fetching from CoinGecko takes 405.227501
+2025-09-15T19:52:00.436+03:00  INFO 39344 --- [web] [scheduling-1] c.c.w.c.s.CoinExchangeRateScheduler      : Rabbit MQ time 13.8911 ms
+2025-09-15T19:52:00.446+03:00  INFO 39344 --- [web] [scheduling-1] c.c.w.c.CoinExchangeRateService          : Saving in DB & CACHE  0.0335 ms
+2025-09-15T19:52:00.448+03:00  INFO 39344 --- [web] [scheduling-1] c.c.w.c.s.CoinExchangeRateScheduler      : Scheduled job finished: exchange rates refreshed. Total duration: 431 ms
+2025-09-15T19:52:30.012+03:00  INFO 39344 --- [web] [scheduling-1] c.c.w.c.CoinExchangeRateService          : No keys found to flush from Redis cache
+2025-09-15T19:52:30.345+03:00 DEBUG 39344 --- [web] [scheduling-1] o.s.w.c.HttpMessageConverterExtractor    : Reading to [com.coinflux.web.coin_exchange_rate.client.coin_gecko.dtos.ExchangeRatesResponse]
+2025-09-15T19:52:30.354+03:00  INFO 39344 --- [web] [scheduling-1] c.c.w.c.CoinExchangeRateService          : Fetching from CoinGecko takes 340.8617
+2025-09-15T19:52:30.356+03:00  INFO 39344 --- [web] [scheduling-1] c.c.w.c.s.CoinExchangeRateScheduler      : Rabbit MQ time 1.937599 ms
+2025-09-15T19:52:30.360+03:00  INFO 39344 --- [web] [scheduling-1] c.c.w.c.CoinExchangeRateService          : Saving in DB & CACHE  0.0516 ms
+2025-09-15T19:52:30.363+03:00  INFO 39344 --- [web] [scheduling-1] c.c.w.c.s.CoinExchangeRateScheduler      : Scheduled job finished: exchange rates refreshed. Total duration: 350 ms
+2025-09-15T19:52:32.708+03:00  INFO 39344 --- [web] [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-2] o.s.a.r.l.SimpleMessageListenerContainer : Waiting for workers to finish.
+2025-09-15T19:52:32.710+03:00  INFO 39344 --- [web] [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#1-2] o.s.a.r.l.SimpleMessageListenerContainer : Waiting for workers to finish.
+2025-09-15T19:52:32.713+03:00  INFO 39344 --- [web] [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#2-2] o.s.a.r.l.SimpleMessageListenerContainer : Waiting for workers to finish.
+2025-09-15T19:52:33.071+03:00  INFO 39344 --- [web] [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#1-2] o.s.a.r.l.SimpleMessageListenerContainer : Successfully waited for workers to finish.
+2025-09-15T19:52:33.102+03:00  INFO 39344 --- [web] [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#2-2] o.s.a.r.l.SimpleMessageListenerContainer : Successfully waited for workers to finish.
+2025-09-15T19:52:33.520+03:00  INFO 39344 --- [web] [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-2] o.s.a.r.l.SimpleMessageListenerContainer : Successfully waited for workers to finish.
+2025-09-15T19:52:33.521+03:00  INFO 39344 --- [web] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-09-15T19:52:33.530+03:00  INFO 39344 --- [web] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-09-15T19:52:33.577+03:00  INFO 39344 --- [web] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-09-15T19:52:33.579+03:00  INFO 39344 --- [web] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-09-15T19:52:33.580+03:00  INFO 39344 --- [web] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
