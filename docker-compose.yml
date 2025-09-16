@@ -29,7 +29,7 @@ services:
       - SPRING_RABBITMQ_USERNAME=coinflux
       - SPRING_RABBITMQ_PASSWORD=coinflux
       - SPRING_RABBITMQ_VIRTUAL_HOST=/
-      # JWT (optional: use defaults from properties if you prefer)
+      # JWT
       - JWT_SECRET=Oqyb2RdOWMs70AJtzCyOzljyzyxVBXOkqDuEHVUyXSBxnIxPd1kGcWR2PXRPAw+4VGhjgrBHEu45CsbAX5bnbA==
       - JWT_EXPIRATION_MS=36000000
     ports:
@@ -54,13 +54,24 @@ services:
       retries: 5
     restart: unless-stopped
 
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: coinflux-pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+    restart: unless-stopped
+
   redis:
     image: bitnami/redis:7.2
     container_name: coinflux-redis
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
       - REDIS_PASSWORD=1234
-      # Bitnami uses the default user by default; aligns with app config
     ports:
       - "6379:6379"
     volumes:
@@ -70,6 +81,15 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    restart: unless-stopped
+
+  redisinsight:
+    image: redislabs/redisinsight:latest
+    container_name: coinflux-redisinsight
+    ports:
+      - "8001:8001"
+    depends_on:
+      - redis
     restart: unless-stopped
 
   rabbitmq:
