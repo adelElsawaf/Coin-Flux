@@ -8,12 +8,14 @@ import com.coinflux.web.user.UserService;
 import com.coinflux.web.user.dtos.UserDTO;
 import lombok.RequiredArgsConstructor;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/notifications")
 @RequiredArgsConstructor
@@ -51,6 +53,8 @@ public class NotificationController {
             @LoggedInUser UserDTO userDTO,
             @PathVariable Long notificationId
     ) {
+
+        log.info(String.valueOf(userDTO.getId()));
         notificationService.markOneAsRead(userDTO.getId(), notificationId);
        return new ResponseEntity<>(HttpStatus.NO_CONTENT) ;
     }

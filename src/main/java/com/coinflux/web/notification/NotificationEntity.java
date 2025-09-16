@@ -39,8 +39,7 @@ public class  NotificationEntity {
     @Column(nullable = false)
     private NotificationType type;
 
-    @Column(name = "is_read", nullable = false)
-    private boolean isRead = false;
+
 
     @Column(name = "readed_date")
     private LocalDateTime readedDate;

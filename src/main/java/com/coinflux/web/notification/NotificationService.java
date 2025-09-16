@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class NotificationService {
@@ -30,7 +32,6 @@ public class NotificationService {
                 .title(request.getTitle())
                 .message(request.getMessage())
                 .type(request.getType())
-                .isRead(false)
                 .build();
 
         NotificationEntity saved = notificationRepository.save(entity);
@@ -59,14 +60,18 @@ public class NotificationService {
 
     @Transactional
     public void markAllAsRead(Long userId) {
-
-        notificationRepository.markAllAsReadByUserId(userId);
+        notificationRepository.markAllAsRead(userId, LocalDateTime.now());
     }
 
     @Transactional
     public void markOneAsRead(Long userId, Long notificationId) {
-        notificationRepository.findById(notificationId).orElseThrow(() -> new NotificationNotFoundException(notificationId));
-        // Idempotent: if already read or not found for that user, no exception is thrown
-        notificationRepository.markOneAsReadByIdAndUserId(notificationId, userId);
+        NotificationEntity entity = notificationRepository.findById(notificationId)
+                .orElseThrow(() -> new NotificationNotFoundException(notificationId));
+
+        // Ensure the notification belongs to the user; if not, do nothing (idempotent behavior)
+        if (entity.getUser() != null && entity.getUser().getId() != null && entity.getUser().getId().equals(userId)) {
+            entity.setReadedDate(LocalDateTime.now());
+            notificationRepository.save(entity);
+        }
     }
 }
