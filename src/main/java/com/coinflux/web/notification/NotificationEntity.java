@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class NotificationEntity {
+public class  NotificationEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,8 +39,10 @@ public class NotificationEntity {
     @Column(nullable = false)
     private NotificationType type;
 
-    @Column(name = "is_read", nullable = false)
-    private boolean isRead = false;
+
+
+    @Column(name = "readed_date")
+    private LocalDateTime readedDate;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
