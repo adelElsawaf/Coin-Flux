@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 
-@ControllerAdvice
+@RestControllerAdvice(basePackages = "com.coinflux.web")
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(CoinNotFoundException.class)
