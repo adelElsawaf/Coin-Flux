@@ -54,7 +54,6 @@ public class NotificationController {
             @PathVariable Long notificationId
     ) {
 
-        log.info(String.valueOf(userDTO.getId()));
         notificationService.markOneAsRead(userDTO.getId(), notificationId);
        return new ResponseEntity<>(HttpStatus.NO_CONTENT) ;
     }

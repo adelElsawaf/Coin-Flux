@@ -41,8 +41,8 @@ public class  NotificationEntity {
 
 
 
-    @Column(name = "readed_date")
-    private LocalDateTime readedDate;
+    @Column(name = "read_at")
+    private LocalDateTime readAt;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)

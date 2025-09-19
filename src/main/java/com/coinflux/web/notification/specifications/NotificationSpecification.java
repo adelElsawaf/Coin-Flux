@@ -18,7 +18,7 @@ public class NotificationSpecification {
             if (request.getUnreadOnly() != null) {
                 if (request.getUnreadOnly()) {
                     // If unreadOnly = true → return only notifications without readedDate
-                    predicate.getExpressions().add(cb.isNull(root.get("readedDate")));
+                    predicate.getExpressions().add(cb.isNull(root.get("readAt")));
                 }
                 // else → do nothing (include both read and unread)
             }
