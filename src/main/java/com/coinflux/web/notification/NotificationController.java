@@ -48,13 +48,13 @@ public class NotificationController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT) ;
     }
 
-    @PatchMapping("/read/{notificationId}")
+    @PatchMapping("/{id}/read")
     public ResponseEntity<?> markOneAsRead(
             @LoggedInUser UserDTO userDTO,
-            @PathVariable Long notificationId
+            @PathVariable Long id
     ) {
 
-        notificationService.markOneAsRead(userDTO.getId(), notificationId);
+        notificationService.markOneAsRead(userDTO.getId(), id);
        return new ResponseEntity<>(HttpStatus.NO_CONTENT) ;
     }
 }

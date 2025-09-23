@@ -61,16 +61,16 @@ public class NotificationService {
 
     @Transactional
     public void markAllAsRead(Long userId) {
-       
-            notificationRepository.markAllAsRead(userId, LocalDateTime.now());
-        
+
+        notificationRepository.markAllAsRead(userId, LocalDateTime.now());
+
     }
-    
-    
+
+
     @Transactional
     public void markOneAsRead(Long userId, Long notificationId) {
 
-            notificationRepository.updateNotificationByUserIdAndNotificationId(userId,notificationId,LocalDateTime.now());
-        }
-    
+        notificationRepository.updateNotificationByUserIdAndNotificationId(userId,notificationId,LocalDateTime.now());
+    }
+
 }
