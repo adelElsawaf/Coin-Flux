@@ -39,6 +39,8 @@ public class NotificationController {
             @PathVariable Long userId,
             @RequestBody GetAllNotificationsRequest request
     ) {
+
+
         return notificationService.getAllNotifications(request, userId);
     }
 

@@ -15,6 +15,5 @@ public class GetNotificationResponse {
     private String title;
     private String message;
     private NotificationType type;
-    private boolean isRerad;
     private LocalDateTime createdAt;
 }
