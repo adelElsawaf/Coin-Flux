@@ -36,6 +36,8 @@ public class UserCoinWatchlistEntity {
     )
     private UserEntity user;
 
+
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(
             name = "coin_symbol",
