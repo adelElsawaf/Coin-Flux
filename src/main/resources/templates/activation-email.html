@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Account Activation - Coinflux</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f9fafb;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        .email-wrapper {
+            background-color: #f9fafb;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #1976d2 0%, #2e7d32 100%);
+            padding: 40px 30px;
+            text-align: center;
+        }
+        .logo {
+            color: #ffffff;
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin: 0;
+        }
+        .content {
+            padding: 40px 30px;
+            color: #1a1a1a;
+        }
+        .greeting {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+        }
+        .message {
+            font-size: 15px;
+            color: #5f6368;
+            margin-bottom: 16px;
+        }
+        .highlight-box {
+            background-color: #f9fafb;
+            border-left: 4px solid #1976d2;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 4px;
+        }
+        .highlight-box p {
+            margin: 0;
+            font-size: 14px;
+            color: #5f6368;
+            line-height: 1.6;
+        }
+        .button-container {
+            text-align: center;
+            margin: 35px 0;
+        }
+        .button {
+            display: inline-block;
+            background: linear-gradient(135deg, #1976d2 0%, #2e7d32 100%);
+            color: #ffffff !important;
+            text-decoration: none;
+            padding: 16px 48px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+        }
+        .button:visited {
+            color: #ffffff !important;
+        }
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(25, 118, 210, 0.4);
+        }
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, #e0e0e0, transparent);
+            margin: 30px 0;
+        }
+        .link-section {
+            background-color: #f9fafb;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 25px;
+        }
+        .link-section p {
+            margin: 0 0 10px 0;
+            font-size: 13px;
+            color: #5f6368;
+        }
+        .link-text {
+            word-break: break-all;
+            color: #115293;
+            text-decoration: none;
+            font-size: 13px;
+        }
+        .footer {
+            background-color: #f9fafb;
+            padding: 30px;
+            text-align: center;
+        }
+        .footer-text {
+            font-size: 13px;
+            color: #5f6368;
+            margin: 8px 0;
+        }
+        .footer-links {
+            margin-top: 15px;
+        }
+        .footer-link {
+            color: #115293;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 13px;
+        }
+        .security-notice {
+            background-color: #fff3e0;
+            border-left: 4px solid #ed6c02;
+            padding: 15px;
+            margin-top: 25px;
+            border-radius: 4px;
+        }
+        .security-notice p {
+            margin: 0;
+            font-size: 13px;
+            color: #5f6368;
+        }
+    </style>
+</head>
+<body>
+<div class="email-wrapper">
+    <div class="container">
+        <div class="header">
+            <h1 class="logo">Coinflux</h1>
+        </div>
+
+        <div class="content">
+            <p class="greeting">Hello <span th:text="${username}">User</span>,</p>
+
+            <p class="message">
+                Welcome to Coinflux! We're excited to have you join our community.
+            </p>
+
+            <p class="message">
+                To complete your registration and start exploring all the features we offer, please verify your email address by clicking the button below.
+            </p>
+
+            <div class="button-container">
+                <a th:href="${activationLink}" class="button">Verify Email Address</a>
+            </div>
+
+            <div class="highlight-box">
+                <p>
+                    <strong>Why verify your email?</strong><br>
+                    This step ensures the security of your account and enables you to receive important notifications and updates.
+                </p>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="link-section">
+                <p><strong>Button not working?</strong></p>
+                <p>Copy and paste this link into your browser:</p>
+                <a th:href="${activationLink}" th:text="${activationLink}" class="link-text">https://coinflux.com/activate</a>
+            </div>
+
+            <div class="security-notice">
+                <p>
+                    <strong>Security Notice:</strong> This verification link will expire in 2 minutes. If you didn't create an account with Coinflux, please disregard this email.
+                </p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p class="footer-text">
+                <strong>Need help?</strong> Contact our support team
+            </p>
+            <div class="footer-links">
+                <a href="#" class="footer-link">Help Center</a>
+                <a href="#" class="footer-link">Contact Support</a>
+                <a href="#" class="footer-link">Privacy Policy</a>
+            </div>
+            <p class="footer-text" style="margin-top: 20px;">
+                &copy; 2025 Coinflux. All rights reserved.
+            </p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

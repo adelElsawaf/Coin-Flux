@@ -1,10 +1,11 @@
 package com.coinflux.web.auth.resolvers;
 
-
 import com.coinflux.web.auth.annotations.LoggedInUser;
 import com.coinflux.web.jwt.JwtService;
+import com.coinflux.web.jwt.TokenType;
 import com.coinflux.web.user.UserService;
 import com.coinflux.web.user.dtos.UserDTO;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
@@ -33,13 +34,31 @@ public class LoggedInUserResolver implements HandlerMethodArgumentResolver {
                                   NativeWebRequest webRequest,
                                   org.springframework.web.bind.support.WebDataBinderFactory binderFactory) {
 
-        String authHeader = request.getHeader("Authorization");
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            return null;
+        String token = extractTokenFromCookies(request);
+        if (token == null) {
+            return null; // or throw new UnauthorizedException();
         }
 
-        String token = authHeader.substring(7);
-        String email = jwtService.extractUsername(token); // subject is email
+        // Extract username (email) from token
+        String email = jwtService.extractUsername(token);
+
+        // Validate token with username (your existing method)
+        if (!jwtService.isTokenValid(token, email, TokenType.ACCESS)) {
+            return null; // or throw new TokenExpiredException();
+        }
+
+        // Fetch user by email
         return userService.getUserByEmail(email);
+    }
+
+    private String extractTokenFromCookies(HttpServletRequest request) {
+        if (request.getCookies() == null) return null;
+
+        for (Cookie cookie : request.getCookies()) {
+            if ("accessToken".equals(cookie.getName())) {
+                return cookie.getValue();
+            }
+        }
+        return null;
     }
 }

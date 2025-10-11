@@ -33,6 +33,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/exchange-rate").permitAll()
+                        .requestMatchers("/emails/send").permitAll()
                         .anyRequest().authenticated()
                 );
 

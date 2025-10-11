@@ -58,4 +58,17 @@ public class UserService {
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
     }
+
+
+    @Transactional
+    public void activateUser(String email) {
+        int updated = userRepository.activateUser(email);
+        if (updated == 0) {
+            throw new UserNotFoundException("User not found for email: " + email);
+        }
+    }
+    public boolean isAlreadyActivated(String email) {
+        return userRepository.existsByEmailAndActivatedAtIsNotNull(email);
+    }
+
 }

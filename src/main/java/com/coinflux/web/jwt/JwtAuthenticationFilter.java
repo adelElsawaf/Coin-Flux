@@ -1,8 +1,8 @@
 package com.coinflux.web.jwt;
 
-import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.Arrays;
 
 @Component
 @RequiredArgsConstructor
@@ -26,17 +28,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException {
+                                    FilterChain filterChain)
+            throws ServletException, IOException {
 
-        final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+        // ✅ Extract JWT from HttpOnly cookie
+        String token = extractTokenFromCookies(request);
 
-        // No token provided — let Spring Security handle it (will throw 401 if required)
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+        // No token — let Spring Security continue (401 will be handled later)
+        if (token == null) {
             filterChain.doFilter(request, response);
             return;
         }
-
-        String token = authHeader.substring(7);
 
         try {
             String username = jwtService.extractUsername(token);
@@ -44,15 +46,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 var userDetails = userDetailsService.loadUserByUsername(username);
 
-                if (jwtService.isTokenValid(token, userDetails.getUsername())) {
-                    UsernamePasswordAuthenticationToken authToken =
+                if (jwtService.isTokenValid(token, userDetails.getUsername(),TokenType.ACCESS)) {
+                    UsernamePasswordAuthenticationToken authentication =
                             new UsernamePasswordAuthenticationToken(
                                     userDetails,
                                     null,
                                     userDetails.getAuthorities()
                             );
-                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
                 } else {
                     sendUnauthorized(response, "Invalid JWT token");
                     return;
@@ -66,11 +68,32 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
+    /**
+     * Extracts the JWT token from cookies.
+     */
+    private String extractTokenFromCookies(HttpServletRequest request) {
+        if (request.getCookies() == null) {
+            return null;
+        }
+        System.out.println(request.getCookies().length);
+        //System.out.println(request.getCookies());
+        return Arrays.stream(request.getCookies())
+                .filter(cookie -> "accessToken".equals(cookie.getName()))
+                .findFirst()
+                .map(Cookie::getValue)
+                .orElse(null);
+    }
+
+    /**
+     * Sends a standardized unauthorized response.
+     */
     private void sendUnauthorized(HttpServletResponse response, String message) throws IOException {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType("application/json");
-        response.getWriter().write(
-                "{ \"error\": \"" + message + "\", \"timestamp\": \"" + java.time.LocalDateTime.now() + "\" }"
-        );
+        response.getWriter().write(String.format(
+                "{ \"error\": \"%s\", \"timestamp\": \"%s\" }",
+                message,
+                LocalDateTime.now()
+        ));
     }
 }
