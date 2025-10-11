@@ -9,6 +9,5 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class RegisterResponse {
-    private UserDTO user;
-    private AuthDTO authDto;
+    private String message;
 }

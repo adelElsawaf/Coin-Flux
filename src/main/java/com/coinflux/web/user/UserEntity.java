@@ -4,6 +4,7 @@ import com.coinflux.web.notification.NotificationEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +31,9 @@ public class UserEntity {
 
     @Column(nullable = false, unique = true)
     private String email;
+
+    @Column
+    private LocalDateTime activatedAt;
 
     @Column(nullable = false)
     private String password;
