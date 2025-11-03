@@ -1,7 +1,7 @@
 package com.coinflux.web.auth.exceptions;
 
-public class UserAlreadyExistsException extends AuthException {
-    public UserAlreadyExistsException(String email) {
-        super("User already exists with " + email);
+public class UserAlreadyExistsException extends RuntimeException {
+    public UserAlreadyExistsException() {
+        super("A user with this email already exists");
     }
 }

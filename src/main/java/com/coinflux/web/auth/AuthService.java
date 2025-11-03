@@ -22,6 +22,7 @@ import com.coinflux.web.user.dtos.requests.CreateUserRequest;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.antlr.v4.runtime.Token;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -40,13 +41,17 @@ public class AuthService {
     private final JwtService jwtService;
     private final AuthMapper authMapper;
     private final MailService mailService;
+    @Value("${frontend.base_url}")
+    private String frontendUrl;
+
+
     private final AuthenticationManager authenticationManager;
 
     @Transactional
     public RegisterResponse register(RegisterRequest request) {
         // Check if user already exists
         if (userService.existsByEmail(request.getEmail())) {
-            throw new UserAlreadyExistsException(request.getEmail());
+            throw new UserAlreadyExistsException();
         }
 
         // Create user
@@ -55,7 +60,7 @@ public class AuthService {
         String activationToken = this.jwtService.generateToken(request.getEmail(),JWTConstants.ACTIVATION_TOKEN_EXPIRY_IN_MILLIS, TokenType.ACTIVATION);
         Map<String, Object> variables = Map.of(
                 "username", createdUser.getFirstName(),
-                "activationLink", "https://coinflux.com/activate?token=" + activationToken
+                "activationLink", frontendUrl+"/auth/activate?token=" + activationToken
         );
 
         mailService.createAndSendTemplateEmail(

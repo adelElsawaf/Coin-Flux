@@ -1,6 +1,7 @@
 package com.coinflux.web.shared.config;
 
 import com.coinflux.web.auth.exceptions.AuthException;
+import com.coinflux.web.auth.exceptions.UserAlreadyExistsException;
 import com.coinflux.web.coin.exceptions.CoinNotFoundException;
 import com.coinflux.web.shared.exception.ErrorObject;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -54,5 +55,15 @@ public class GlobalExceptionHandler {
                 .timestamp(LocalDateTime.now())
                 .build();
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+    }
+
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<ErrorObject> handleUserAlreadyExists(UserAlreadyExistsException ex) {
+        ErrorObject error =  ErrorObject.builder()
+                .errorCode(HttpStatus.CONFLICT.value())
+                .errorMsg(ex.getMessage())
+        .timestamp(LocalDateTime.now())
+        .build();
+        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
     }
 }
