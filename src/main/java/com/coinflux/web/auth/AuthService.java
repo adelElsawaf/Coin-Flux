@@ -57,10 +57,10 @@ public class AuthService {
         // Create user
         CreateUserRequest createUserRequest = authMapper.toCreateUserRequest(request);
         UserDTO createdUser = userService.createUser(createUserRequest).getUser();
-        String activationToken = this.jwtService.generateToken(request.getEmail(),JWTConstants.ACTIVATION_TOKEN_EXPIRY_IN_MILLIS, TokenType.ACTIVATION);
+        String activationToken = this.jwtService.generateToken(request.getEmail(), JWTConstants.ACTIVATION_TOKEN_EXPIRY_IN_MILLIS, TokenType.ACTIVATION);
         Map<String, Object> variables = Map.of(
                 "username", createdUser.getFirstName(),
-                "activationLink", frontendUrl+"/auth/activate?token=" + activationToken
+                "activationLink", frontendUrl + "/auth/activate?token=" + activationToken
         );
 
         mailService.createAndSendTemplateEmail(
@@ -95,25 +95,25 @@ public class AuthService {
         String refresh_token;
         try {
             access_token = jwtService.generateToken(user.getEmail(), JWTConstants.ACCESS_TOKEN_EXPIRY_IN_MILLIS, TokenType.ACCESS);
-            refresh_token = jwtService.generateToken(user.getEmail(),JWTConstants.REFRESH_TOKEN_EXPIRY_IN_MILLIS,TokenType.REFRESH);
+            refresh_token = jwtService.generateToken(user.getEmail(), JWTConstants.REFRESH_TOKEN_EXPIRY_IN_MILLIS, TokenType.REFRESH);
         } catch (Exception e) {
             throw new TokenGenerationException(e.getMessage());
         }
 
-        return new LoginResponse(user,new AuthDTO(access_token,refresh_token));
+        return new LoginResponse(user, new AuthDTO(access_token, refresh_token));
     }
 
-    public String refreshAccessToken (String refreshToken){
+    public String refreshAccessToken(String refreshToken) {
         String userEmail = jwtService.extractUsername(refreshToken);
-        if (userEmail == null || !jwtService.isTokenValid(refreshToken, userEmail,TokenType.REFRESH)) {
+        if (userEmail == null || !jwtService.isTokenValid(refreshToken, userEmail, TokenType.REFRESH)) {
             throw new InvalidCredentialsException();
         }
-        return jwtService.generateToken(userEmail, JWTConstants.ACCESS_TOKEN_EXPIRY_IN_MILLIS,TokenType.REFRESH);
+        return jwtService.generateToken(userEmail, JWTConstants.ACCESS_TOKEN_EXPIRY_IN_MILLIS, TokenType.REFRESH);
     }
 
     public boolean activateUser(String token) {
         String userEmail = jwtService.extractUsername(token);
-        if (!jwtService.isTokenValid(token, userEmail,TokenType.ACTIVATION)) {
+        if (!jwtService.isTokenValid(token, userEmail, TokenType.ACTIVATION)) {
             return false;
         }
         // Check if already activated
