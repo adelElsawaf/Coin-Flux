@@ -57,19 +57,21 @@ public class AuthService {
         // Create user
         CreateUserRequest createUserRequest = authMapper.toCreateUserRequest(request);
         UserDTO createdUser = userService.createUser(createUserRequest).getUser();
-        String activationToken = this.jwtService.generateToken(request.getEmail(), JWTConstants.ACTIVATION_TOKEN_EXPIRY_IN_MILLIS, TokenType.ACTIVATION);
-        Map<String, Object> variables = Map.of(
-                "username", createdUser.getFirstName(),
-                "activationLink", frontendUrl + "/auth/activate?token=" + activationToken
-        );
+        userService.activateUser(createdUser.getEmail());
 
-        mailService.createAndSendTemplateEmail(
-                createdUser.getEmail(),
-                "Activate your Coinflux Account",
-                "activation-email", // name of the Thymeleaf template (without .html)
-                variables,
-                MailType.ACCOUNT_ACTIVATION
-        );
+//        String activationToken = this.jwtService.generateToken(request.getEmail(), JWTConstants.ACTIVATION_TOKEN_EXPIRY_IN_MILLIS, TokenType.ACTIVATION);
+//        Map<String, Object> variables = Map.of(
+//                "username", createdUser.getFirstName(),
+//                "activationLink", frontendUrl + "/auth/activate?token=" + activationToken
+//        );
+//
+//        mailService.createAndSendTemplateEmail(
+//                createdUser.getEmail(),
+//                "Activate your Coinflux Account",
+//                "activation-email", // name of the Thymeleaf template (without .html)
+//                variables,
+//                MailType.ACCOUNT_ACTIVATION
+//        );
 
 
         return new RegisterResponse("Registered Successfully , Please Activate to continue");
